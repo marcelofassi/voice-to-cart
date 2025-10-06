@@ -1,0 +1,44 @@
+CREAR EL ENTORNO VIRTUAL
+------------------------
+python3 -m venv venv
+
+ACTIVAR EL ENTORNO VIRTUAL
+-------------------------
+source venv/bin/activate
+
+INSTALAR EL ENTORNO
+-------------------
+pip install -r requirements.txt
+
+
+EJECUTAR LA API
+---------------
+uvicorn app.main:app --reload
+
+PROBAR LA API
+-------------
+Abre tu navegador en 👉 http://localhost:8000/docs
+
+Ahí verás la interfaz Swagger UI generada automáticamente, donde podrás probar:
+
+-POST /message
+
+-POST /config
+
+-GET /cart
+
+
+EJECUTAR PRUEBAS
+----------------
+En otra terminal (manteniendo el entorno venv activo):
+
+pytest -q
+
+
+Deberías ver:
+
+....                                                                     [100%]
+4 passed in 1.23s
+
+
+ 
