@@ -1,0 +1,60 @@
+{
+  "products": [
+    {
+      "sku": "SKU-APPLE-001",
+      "name": "Manzana Roja",
+      "brand": "Acme",
+      "variants": [
+        {
+          "id": "small",
+          "name": "Chica"
+        },
+        {
+          "id": "large",
+          "name": "Grande"
+        }
+      ],
+      "price": 500,
+      "stock": 100
+    },
+    {
+      "sku": "SKU-BANANA-002",
+      "name": "Banana",
+      "brand": "Globex",
+      "variants": [
+        {
+          "id": "kg",
+          "name": "Por kilo"
+        }
+      ],
+      "price": 700,
+      "stock": 50
+    },
+    {
+      "sku": "SKU-MILK-003",
+      "name": "Leche Entera 1L",
+      "brand": "Acme",
+      "variants": [
+        {
+          "id": "pack",
+          "name": "Unidad"
+        }
+      ],
+      "price": 900,
+      "stock": 0
+    },
+    {
+      "sku": "SKU-PASTA-004",
+      "name": "Pasta Spaghetti 500g",
+      "brand": "Umbrella",
+      "variants": [
+        {
+          "id": "pack",
+          "name": "Paquete"
+        }
+      ],
+      "price": 1200,
+      "stock": 30
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "tone": "amigable",
+  "constraints": {
+    "forbid_oos": true,
+    "max_items_per_message": 20
+  },
+  "preferences": {
+    "preferred_brands": [
+      "Acme",
+      "Globex"
+    ],
+    "inclusive_language": true,
+    "locale": "es-AR",
+    "currency": "ARS",
+    "channel_overrides": {
+      "whatsapp": {
+        "tone": "informal"
+      },
+      "web": {
+        "tone": "amigable"
+      }
+    }
+  }
+}

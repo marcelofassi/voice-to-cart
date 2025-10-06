@@ -1,79 +1,56 @@
+# voice-to-cart (backend)
 
-# Voice-to-Cart (FastAPI)
+Un backend de referencia con FastAPI para recibir mensajes (texto/voz) desde WhatsApp o chat web, interpretar intención con un LLM desacoplado y extraer artículos para un carrito mockeado.
 
-Servicio backend que recibe mensajes (texto o voz) desde WhatsApp y chat web, interpreta la intención con un LLM desacoplado y agrega productos a un carrito de compras.
-
-## 🧱 Arquitectura (alto nivel)
+## Diagrama de arquitectura (alto nivel)
 
 ```mermaid
 flowchart LR
-  A[Canales\nWhatsApp / Chat Web] -->|/message| B[FastAPI]
-  B --> C[MessageProcessor]
-  C --> D[ConfigManager]
-  C --> E[LLMEngine (Interface)]
-  E <---> E1[DummyLLM / OpenAI / Gemini]
-  C --> F[CartService]
-  D -->|reglas/tono| E
-  B -->|/config| D
-  B -->|/cart| F
+  subgraph Channels
+    A1[WhatsApp Webhook] -->|/message| B
+    A2[Web Chat] -->|/message| B
+  end
+
+  subgraph API[FastAPI API Layer]
+    B[/POST /message/]
+    C[/POST /config/]
+    D[/GET /cart/]
+  end
+
+  B --> P[Message Processor]
+  C --> CFG[Config Manager]
+  D --> CART[Cart Service]
+
+  P -->|load| CAT[Product Catalog]
+  P -->|uses| LLM[LLM Engine (Interface)]
+  P --> CART
+
+  LLM <..> CFG
+  P <..> CFG
+
+  CART -->|simulate| ECOM[(Mock Ecommerce API)]
+  CAT <--> ECOM
 ```
 
-## 📁 Estructura de carpetas
+**Fallback ASCII:**
 
-```
-app/
-  main.py
-  schemas.py
-  config.py
-  services/cart.py
-  processing/message_processor.py
-  llm/base.py
-  llm/dummy.py
-tests/
-  test_endpoints.py
-  test_processor.py
-config.example.yaml
+Channels(WhatsApp/Web) -> FastAPI(/message,/config,/cart)
+/message -> Processor -> (Catalog, LLM Engine via interface, Config)
+Processor -> Cart Service -> Mock Ecommerce API
+/config -> Config Manager (dinámico)
+/cart -> Cart Service
 ```
 
-## ⚙️ Ejemplo de configuración (YAML)
-
-```yaml
-tone: "amigable"
-constraints:
-  no_out_of_stock: true
-  max_items_per_message: 20
-preferences:
-  preferred_brands: ["Acme", "La Serenísima"]
-  inclusive_language: true
-  units_default: "unidad"
-parsing:
-  quantity_words:
-    uno: 1
-    una: 1
-    dos: 2
-    tres: 3
-    media: 0.5
-```
-
-## 🔁 Flujo de ejemplo
-
-1. Cliente envía: *"Agregá 2 leches descremadas La Serenísima y 1 pan integral Fargo"*.
-2. `POST /message` recibe `{channel:"web", type:"text", text:"..."}`.
-3. `MessageProcessor` aplica configuración dinámica y llama al `LLMEngine`.
-4. El motor devuelve una lista estructurada de artículos (`name`, `quantity`, `variant`, `brand`, `notes`).
-5. `CartService` agrega los artículos al carrito del `user_id` y retorna estado de detecciones + carrito.
-6. `GET /cart?user_id=abc` muestra el estado del carrito.
-
-## ▶️ Ejecutar
+## Ejecución local
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Abrí Swagger en: http://localhost:8000/docs
+Abrir Swagger UI en: http://localhost:8000/docs
 
-## 🧪 Pruebas
+## Pruebas
 
 ```bash
-pytest
+pytest -q
 ```

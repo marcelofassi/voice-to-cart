@@ -1,9 +1,9 @@
-
 from __future__ import annotations
-from typing import Protocol, List
-from ..schemas import ProductItem, ConfigModel
+from abc import ABC, abstractmethod
+from typing import Any, Dict
 
-class LLMEngine(Protocol):
-    """Interfaz para motores LLM intercambiables."""
-    def extract_products(self, message: str, config: ConfigModel) -> List[ProductItem]:
-        ...
+class LLMEngine(ABC):
+    @abstractmethod
+    def analyze(self, text: str, context: Dict[str, Any]) -> Dict[str, Any]:
+        """Return a dict with "intent" and optional "items" extracted and "notes"."""
+        raise NotImplementedError
