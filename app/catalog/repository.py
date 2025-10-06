@@ -2,7 +2,8 @@ from __future__ import annotations
 import json, os
 from typing import Dict, Any, Optional, List
 
-DATA_PATH = os.environ.get("CATALOG_PATH", "/mnt/data/voice_to_cart/data/catalog.json")
+DATA_PATH = os.environ.get("CATALOG_PATH", "data/catalog.json")
+
 
 class CatalogRepository:
     def __init__(self, path: str = DATA_PATH):

@@ -36,7 +36,8 @@ class MessageResponse(BaseModel):
 
 class ConfigUploadRequest(BaseModel):
     content: str
-    content_type: str = Field(description="json | yaml", regex="^(json|yaml)$")
+    content_type: str = Field(description="json | yaml", pattern="^(json|yaml)$")
+
 
 class CartItem(BaseModel):
     sku: str
